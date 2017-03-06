@@ -3,6 +3,7 @@ package printer
 import (
 	"fmt"
 	"math"
+	"os"
 	"strings"
 	"syscall"
 	"unsafe"
@@ -244,7 +245,6 @@ func VerboseWarningBar(text string, a ...interface{}) {
 // https://github.com/golang/crypto/blob/master/ssh/terminal/util.go#L80
 func getSize(fd int) (width, height int, err error) {
 	var dimensions [4]uint16
-
 	if _, _, err := syscall.Syscall6(syscall.SYS_IOCTL, uintptr(fd), uintptr(syscall.TIOCGWINSZ), uintptr(unsafe.Pointer(&dimensions)), 0, 0, 0); err != 0 {
 		return -1, -1, err
 	}
@@ -252,6 +252,6 @@ func getSize(fd int) (width, height int, err error) {
 }
 
 func getWidth() int {
-	width := getWidth()
-	return int(math.Max(float64(width), 10.0))
+	width, _, _ := getSize(int(os.Stdout.Fd()))
+	return int(math.Max(float64(width), 20.0))
 }
