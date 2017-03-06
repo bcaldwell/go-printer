@@ -11,116 +11,145 @@ import (
 // Enables verbose printing
 var Verbose = false
 
-// Nc is the no color string constant
-const Nc = "\x1b[0m"
-const Green = "\x1b[32m"
-const Red = "\x1b[31m"
-
-// Blue is the blue color string constant
-const Blue = "\x1b[94m"
-const Yellow = "\x1b[33m"
-const Bold = "\033[1m"
-const Nobold = "\033[0m"
-
 const line = "━"
 const bar = "┃ "
 const cornerTop = "┏"
 const cornerBottom = "┗"
 
+const leftPad = 3
+
 func Success(text string, a ...interface{}) {
-	fmt.Printf(Green+"✔ "+Nc+text+"\n", a...)
+	fmt.Printf(Green("✔ ")+text+"\n", a...)
 }
 
 func Fail(text string, a ...interface{}) {
-	fmt.Printf(Red+"✗ "+Nc+text+"\n", a...)
+	fmt.Printf(Red("✗ ")+text+"\n", a...)
 }
 
 func Error(text string, a ...interface{}) {
-	fmt.Printf(Red+"✗ "+Nc+text+"\n", a...)
+	fmt.Printf(Red("✗ ")+text+"\n", a...)
 }
 
 func Info(text string, a ...interface{}) {
-	fmt.Printf(Blue+"🐧  "+Nc+text+"\n", a...)
+	fmt.Printf(Blue("🐧  ")+text+"\n", a...)
 }
 
 func Warning(text string, a ...interface{}) {
-	fmt.Printf(Yellow+"⚠ "+Nc+text+"\n", a...)
+	fmt.Printf(Yellow("⚠ ")+text+"\n", a...)
 }
 
 func SuccessBar(text string, a ...interface{}) {
-	fmt.Printf(Green+bar+Nc+text+"\n", a...)
+	fmt.Printf(Green(bar)+text+"\n", a...)
 }
 
 func ErrorBar(text string, a ...interface{}) {
-	fmt.Printf(Red+bar+Nc+text+"\n", a...)
+	fmt.Printf(Red(bar)+text+"\n", a...)
 }
 
 func InfoBar(text string, a ...interface{}) {
-	fmt.Printf(Blue+bar+Nc+text+"\n", a...)
+	fmt.Printf(Blue(bar)+text+"\n", a...)
 }
 
 func WarningBar(text string, a ...interface{}) {
-	fmt.Printf(Yellow+bar+Nc+text+"\n", a...)
+	fmt.Printf(Yellow(bar)+text+"\n", a...)
+}
+
+func SuccessBarIcon(text string, a ...interface{}) {
+	fmt.Printf(Greenf("%s✔ ", bar)+text+"\n", a...)
+}
+
+func ErrorBarIcon(text string, a ...interface{}) {
+	fmt.Printf(Redf("%s✗ ", bar)+text+"\n", a...)
+}
+
+func InfoBarIcon(text string, a ...interface{}) {
+	fmt.Printf(Bluef("%s🐧 ", bar)+text+"\n", a...)
+}
+
+func WarningBarIcon(text string, a ...interface{}) {
+	fmt.Printf(Yellowf("%s⚠ ", bar)+text+"\n", a...)
 }
 
 func SuccessLine() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Green + strings.Repeat(line, width) + Nc)
+	fmt.Printf(Green(strings.Repeat(line, width)))
 }
 
 func ErrorLine() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Red + strings.Repeat(line, width) + Nc)
+	fmt.Printf(Red(strings.Repeat(line, width)))
 }
 
 func InfoLine() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Blue + strings.Repeat(line, width) + Nc)
+	fmt.Printf(Blue(strings.Repeat(line, width)))
 }
 
 func WarningLine() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Yellow + strings.Repeat(line, width) + Nc)
+	fmt.Printf(Yellow(strings.Repeat(line, width)))
 }
+
+// func SuccessLineText(text string, a ...interface{}) {
+// 	text = fmt.Sprintf(text, a...)
+// 	width, _, _ := getSize(int(os.Stdout.Fd()))
+
+// 	fmt.Printf(Green(strings.Repeat(line, 3)) + Nc strings.Repeat(line, width) + Nc
+// }
+
+// func ErrorLine() {
+// 	width, _, _ := getSize(int(os.Stdout.Fd()))
+// 	fmt.Printf(Red + strings.Repeat(line, width) + Nc)
+// }
+
+// func InfoLine() {
+// 	width, _, _ := getSize(int(os.Stdout.Fd()))
+// 	fmt.Printf(Blue + strings.Repeat(line, width) + Nc)
+// }
+
+// func WarningLine() {
+// 	width, _, _ := getSize(int(os.Stdout.Fd()))
+// 	fmt.Printf(Yellow + strings.Repeat(line, width) + Nc)
+// }
 
 func SuccessLineTop() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold + Green + cornerTop + strings.Repeat(line, width-1) + Nc + Nobold)
+	fmt.Printf(Bold(Green(cornerTop + strings.Repeat(line, width-1))))
 }
 
 func ErrorLineTop() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold + Red + cornerTop + strings.Repeat(line, width-1) + Nc + Nobold)
+	fmt.Printf(Bold(Red(cornerTop + strings.Repeat(line, width-1))))
 }
 
 func InfoLineTop() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold + Blue + cornerTop + strings.Repeat(line, width-1) + Nc + Nobold)
+	fmt.Printf(Bold(Blue(cornerTop + strings.Repeat(line, width-1))))
 }
 
 func WarningLineTop() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold + Yellow + cornerTop + strings.Repeat(line, width-1) + Nc + Nobold)
+	fmt.Printf(Bold(Yellow(cornerTop + strings.Repeat(line, width-1))))
 }
 
 func SuccessLineBottom() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold + Green + cornerBottom + strings.Repeat(line, width-1) + Nc + Nobold)
+	fmt.Printf(Bold(Green(cornerBottom + strings.Repeat(line, width-1))))
 }
 
 func ErrorLineBottom() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold + Red + cornerBottom + strings.Repeat(line, width-1) + Nc + Nobold)
+	fmt.Printf(Bold(Red(cornerBottom + strings.Repeat(line, width-1))))
 }
 
 func InfoLineBottom() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold + Blue + cornerBottom + strings.Repeat(line, width-1) + Nc + Nobold)
+	fmt.Printf(Bold(Blue(cornerBottom + strings.Repeat(line, width-1))))
 }
 
 func WarningLineBottom() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold + Yellow + cornerBottom + strings.Repeat(line, width-1) + Nc + Nobold)
+	fmt.Printf(Bold(Yellow(cornerBottom + strings.Repeat(line, width-1))))
 }
 
 func VerboseSuccess(text string, a ...interface{}) {
