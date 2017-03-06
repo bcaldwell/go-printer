@@ -2,7 +2,7 @@ package printer
 
 import (
 	"fmt"
-	"os"
+	"math"
 	"strings"
 	"syscall"
 	"unsafe"
@@ -71,104 +71,118 @@ func WarningBarIcon(text string, a ...interface{}) {
 }
 
 func SuccessLine() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Green(strings.Repeat(line, width)))
 }
 
 func ErrorLine() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Red(strings.Repeat(line, width)))
 }
 
 func InfoLine() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Blue(strings.Repeat(line, width)))
 }
 
 func WarningLine() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Yellow(strings.Repeat(line, width)))
 }
 
 func SuccessLineText(text string, a ...interface{}) {
-	// text = fmt.Sprintf(text, a...)
-	// width, _, _ := getSize(int(os.Stdout.Fd()))
-
-	// fmt.Printf(Green(strings.Repeat(line, 3)) + Nc strings.Repeat(line, width) + Nc
+	text = fmt.Sprintf(text, a...)
+	width := getWidth()
+	width = width - 2 - leftPad - len(text)
+	fmt.Printf("%s %s %s", Green(strings.Repeat(line, leftPad)), text, Green(strings.Repeat(line, width)))
 }
 
 func ErrorLineText(text string, a ...interface{}) {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Red("%s"), strings.Repeat(line, width))
+	text = fmt.Sprintf(text, a...)
+	width := getWidth()
+	width = width - 2 - leftPad - len(text)
+	fmt.Printf("%s %s %s", Red(strings.Repeat(line, leftPad)), text, Red(strings.Repeat(line, width)))
 }
 
 func InfoLineText(text string, a ...interface{}) {
-	// width, _, _ := getSize(int(os.Stdout.Fd()))
-	// fmt.Printf(Blue + strings.Repeat(line, width) + Nc)
+	text = fmt.Sprintf(text, a...)
+	width := getWidth()
+	width = width - 2 - leftPad - len(text)
+	fmt.Printf("%s %s %s", Blue(strings.Repeat(line, leftPad)), text, Blue(strings.Repeat(line, width)))
 }
 
 func WarningLineText(text string, a ...interface{}) {
-	// width, _, _ := getSize(int(os.Stdout.Fd()))
-	// fmt.Printf(Yellow + strings.Repeat(line, width) + Nc)
+	text = fmt.Sprintf(text, a...)
+	width := getWidth()
+	width = width - 2 - leftPad - len(text)
+	fmt.Printf("%s %s %s", Yellow(strings.Repeat(line, leftPad)), text, Yellow(strings.Repeat(line, width)))
 }
 
 func SuccessLineTop() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Bold(Green(cornerTop + strings.Repeat(line, width-1))))
 }
 
 func ErrorLineTop() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Bold(Red(cornerTop + strings.Repeat(line, width-1))))
 }
 
 func InfoLineTop() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Bold(Blue(cornerTop + strings.Repeat(line, width-1))))
 }
 
 func WarningLineTop() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Bold(Yellow(cornerTop + strings.Repeat(line, width-1))))
 }
 
 func SuccessLineTextTop(text string, a ...interface{}) {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold(Green(cornerTop + strings.Repeat(line, width-1))))
+	text = fmt.Sprintf(text, a...)
+	width := getWidth()
+	width = width - 1 - 2 - leftPad - len(text)
+	fmt.Printf(Bold("%s %s %s"), Green(cornerTop+strings.Repeat(line, leftPad)), text, Green(strings.Repeat(line, width)))
 }
 
 func ErrorLineTextTop(text string, a ...interface{}) {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold(Red(cornerTop + strings.Repeat(line, width-1))))
+	text = fmt.Sprintf(text, a...)
+	width := getWidth()
+	width = width - 1 - 2 - leftPad - len(text)
+	fmt.Printf(Bold("%s %s %s"), Red(cornerTop+strings.Repeat(line, leftPad)), text, Red(strings.Repeat(line, width)))
 }
 
 func InfoLineTextTop(text string, a ...interface{}) {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold(Blue(cornerTop + strings.Repeat(line, width-1))))
+	text = fmt.Sprintf(text, a...)
+	width := getWidth()
+	width = width - 1 - 2 - leftPad - len(text)
+	fmt.Printf(Bold("%s %s %s"), Blue(cornerTop+strings.Repeat(line, leftPad)), text, Blue(strings.Repeat(line, width)))
 }
 
 func WarningLineTextTop(text string, a ...interface{}) {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
-	fmt.Printf(Bold(Yellow(cornerTop + strings.Repeat(line, width-1))))
+	text = fmt.Sprintf(text, a...)
+	width := getWidth()
+	width = width - 1 - 2 - leftPad - len(text)
+	fmt.Printf(Bold("%s %s %s"), Yellow(cornerTop+strings.Repeat(line, leftPad)), text, Yellow(strings.Repeat(line, width)))
 }
 
 func SuccessLineBottom() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Bold(Green(cornerBottom + strings.Repeat(line, width-1))))
 }
 
 func ErrorLineBottom() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Bold(Red(cornerBottom + strings.Repeat(line, width-1))))
 }
 
 func InfoLineBottom() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Bold(Blue(cornerBottom + strings.Repeat(line, width-1))))
 }
 
 func WarningLineBottom() {
-	width, _, _ := getSize(int(os.Stdout.Fd()))
+	width := getWidth()
 	fmt.Printf(Bold(Yellow(cornerBottom + strings.Repeat(line, width-1))))
 }
 
@@ -235,4 +249,9 @@ func getSize(fd int) (width, height int, err error) {
 		return -1, -1, err
 	}
 	return int(dimensions[1]), int(dimensions[0]), nil
+}
+
+func getWidth() int {
+	width := getWidth()
+	return int(math.Max(float64(width), 10.0))
 }
