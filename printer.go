@@ -90,27 +90,27 @@ func WarningLine() {
 	fmt.Printf(Yellow(strings.Repeat(line, width)))
 }
 
-// func SuccessLineText(text string, a ...interface{}) {
-// 	text = fmt.Sprintf(text, a...)
-// 	width, _, _ := getSize(int(os.Stdout.Fd()))
+func SuccessLineText(text string, a ...interface{}) {
+	// text = fmt.Sprintf(text, a...)
+	// width, _, _ := getSize(int(os.Stdout.Fd()))
 
-// 	fmt.Printf(Green(strings.Repeat(line, 3)) + Nc strings.Repeat(line, width) + Nc
-// }
+	// fmt.Printf(Green(strings.Repeat(line, 3)) + Nc strings.Repeat(line, width) + Nc
+}
 
-// func ErrorLine() {
-// 	width, _, _ := getSize(int(os.Stdout.Fd()))
-// 	fmt.Printf(Red + strings.Repeat(line, width) + Nc)
-// }
+func ErrorLineText(text string, a ...interface{}) {
+	width, _, _ := getSize(int(os.Stdout.Fd()))
+	fmt.Printf(Red("%s"), strings.Repeat(line, width))
+}
 
-// func InfoLine() {
-// 	width, _, _ := getSize(int(os.Stdout.Fd()))
-// 	fmt.Printf(Blue + strings.Repeat(line, width) + Nc)
-// }
+func InfoLineText(text string, a ...interface{}) {
+	// width, _, _ := getSize(int(os.Stdout.Fd()))
+	// fmt.Printf(Blue + strings.Repeat(line, width) + Nc)
+}
 
-// func WarningLine() {
-// 	width, _, _ := getSize(int(os.Stdout.Fd()))
-// 	fmt.Printf(Yellow + strings.Repeat(line, width) + Nc)
-// }
+func WarningLineText(text string, a ...interface{}) {
+	// width, _, _ := getSize(int(os.Stdout.Fd()))
+	// fmt.Printf(Yellow + strings.Repeat(line, width) + Nc)
+}
 
 func SuccessLineTop() {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
@@ -128,6 +128,26 @@ func InfoLineTop() {
 }
 
 func WarningLineTop() {
+	width, _, _ := getSize(int(os.Stdout.Fd()))
+	fmt.Printf(Bold(Yellow(cornerTop + strings.Repeat(line, width-1))))
+}
+
+func SuccessLineTextTop(text string, a ...interface{}) {
+	width, _, _ := getSize(int(os.Stdout.Fd()))
+	fmt.Printf(Bold(Green(cornerTop + strings.Repeat(line, width-1))))
+}
+
+func ErrorLineTextTop(text string, a ...interface{}) {
+	width, _, _ := getSize(int(os.Stdout.Fd()))
+	fmt.Printf(Bold(Red(cornerTop + strings.Repeat(line, width-1))))
+}
+
+func InfoLineTextTop(text string, a ...interface{}) {
+	width, _, _ := getSize(int(os.Stdout.Fd()))
+	fmt.Printf(Bold(Blue(cornerTop + strings.Repeat(line, width-1))))
+}
+
+func WarningLineTextTop(text string, a ...interface{}) {
 	width, _, _ := getSize(int(os.Stdout.Fd()))
 	fmt.Printf(Bold(Yellow(cornerTop + strings.Repeat(line, width-1))))
 }

@@ -1,28 +1,40 @@
 package printer
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestGreen(t *testing.T) {
 	type args struct {
-		in0 text
+		text string
 	}
 	tests := []struct {
 		name string
 		args args
 		want string
 	}{
-	// TODO: Add test cases.
+		{
+			name: "color test",
+			args: args{"hello"},
+			want: GreenColor + "hello" + NoColor,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Green(tt.args.in0); got != tt.want {
+			got := Green(tt.args.text)
+			if got != tt.want {
 				t.Errorf("Green() = %v, want %v", got, tt.want)
 			}
+			fmt.Println(got)
 		})
 	}
 }
 
 func TestGreenf(t *testing.T) {
+	var a []interface{}
+	a = append(a, "dawg")
+
 	type args struct {
 		text string
 		a    []interface{}
@@ -32,38 +44,53 @@ func TestGreenf(t *testing.T) {
 		args args
 		want string
 	}{
-	// TODO: Add test cases.
+		{
+			name: "colorf test",
+			args: args{"Hello %s", a},
+			want: GreenColor + "Hello dawg" + NoColor,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Greenf(tt.args.text, tt.args.a...); got != tt.want {
+			got := Greenf(tt.args.text, tt.args.a...)
+			if got != tt.want {
 				t.Errorf("Greenf() = %v, want %v", got, tt.want)
 			}
+			fmt.Println(got)
 		})
 	}
 }
 
 func TestRed(t *testing.T) {
 	type args struct {
-		in0 text
+		text string
 	}
 	tests := []struct {
 		name string
 		args args
 		want string
 	}{
-	// TODO: Add test cases.
+		{
+			name: "color test",
+			args: args{"hello"},
+			want: RedColor + "hello" + NoColor,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Red(tt.args.in0); got != tt.want {
+			got := Red(tt.args.text)
+			if got != tt.want {
 				t.Errorf("Red() = %v, want %v", got, tt.want)
 			}
+			fmt.Println(got)
 		})
 	}
 }
 
 func TestRedf(t *testing.T) {
+	var a []interface{}
+	a = append(a, "dawg")
+
 	type args struct {
 		text string
 		a    []interface{}
@@ -73,38 +100,53 @@ func TestRedf(t *testing.T) {
 		args args
 		want string
 	}{
-	// TODO: Add test cases.
+		{
+			name: "colorf test",
+			args: args{"Hello %s", a},
+			want: RedColor + "Hello dawg" + NoColor,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Redf(tt.args.text, tt.args.a...); got != tt.want {
+			got := Redf(tt.args.text, tt.args.a...)
+			if got != tt.want {
 				t.Errorf("Redf() = %v, want %v", got, tt.want)
 			}
+			fmt.Println(got)
 		})
 	}
 }
 
 func TestBlue(t *testing.T) {
 	type args struct {
-		in0 text
+		text string
 	}
 	tests := []struct {
 		name string
 		args args
 		want string
 	}{
-	// TODO: Add test cases.
+		{
+			name: "color test",
+			args: args{"hello"},
+			want: BlueColor + "hello" + NoColor,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Blue(tt.args.in0); got != tt.want {
+			got := Blue(tt.args.text)
+			if got != tt.want {
 				t.Errorf("Blue() = %v, want %v", got, tt.want)
 			}
+			fmt.Println(got)
 		})
 	}
 }
 
 func TestBluef(t *testing.T) {
+	var a []interface{}
+	a = append(a, "dawg")
+
 	type args struct {
 		text string
 		a    []interface{}
@@ -114,38 +156,53 @@ func TestBluef(t *testing.T) {
 		args args
 		want string
 	}{
-	// TODO: Add test cases.
+		{
+			name: "colorf test",
+			args: args{"Hello %s", a},
+			want: BlueColor + "Hello dawg" + NoColor,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Bluef(tt.args.text, tt.args.a...); got != tt.want {
+			got := Bluef(tt.args.text, tt.args.a...)
+			if got != tt.want {
 				t.Errorf("Bluef() = %v, want %v", got, tt.want)
 			}
+			fmt.Println(got)
 		})
 	}
 }
 
 func TestYellow(t *testing.T) {
 	type args struct {
-		in0 text
+		text string
 	}
 	tests := []struct {
 		name string
 		args args
 		want string
 	}{
-	// TODO: Add test cases.
+		{
+			name: "color test",
+			args: args{"hello"},
+			want: YellowColor + "hello" + NoColor,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Yellow(tt.args.in0); got != tt.want {
+			got := Yellow(tt.args.text)
+			if got != tt.want {
 				t.Errorf("Yellow() = %v, want %v", got, tt.want)
 			}
+			fmt.Println(got)
 		})
 	}
 }
 
 func TestYellowf(t *testing.T) {
+	var a []interface{}
+	a = append(a, "dawg")
+
 	type args struct {
 		text string
 		a    []interface{}
@@ -155,38 +212,53 @@ func TestYellowf(t *testing.T) {
 		args args
 		want string
 	}{
-	// TODO: Add test cases.
+		{
+			name: "colorf test",
+			args: args{"Hello %s", a},
+			want: YellowColor + "Hello dawg" + NoColor,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Yellowf(tt.args.text, tt.args.a...); got != tt.want {
+			got := Yellowf(tt.args.text, tt.args.a...)
+			if got != tt.want {
 				t.Errorf("Yellowf() = %v, want %v", got, tt.want)
 			}
+			fmt.Println(got)
 		})
 	}
 }
 
 func TestBold(t *testing.T) {
 	type args struct {
-		in0 text
+		text string
 	}
 	tests := []struct {
 		name string
 		args args
 		want string
 	}{
-	// TODO: Add test cases.
+		{
+			name: "color test",
+			args: args{"hello"},
+			want: BoldString + "hello" + NoboldString,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Bold(tt.args.in0); got != tt.want {
+			got := Bold(tt.args.text)
+			if got != tt.want {
 				t.Errorf("Bold() = %v, want %v", got, tt.want)
 			}
+			fmt.Println(got)
 		})
 	}
 }
 
 func TestBoldf(t *testing.T) {
+	var a []interface{}
+	a = append(a, "dawg")
+
 	type args struct {
 		text string
 		a    []interface{}
@@ -196,13 +268,19 @@ func TestBoldf(t *testing.T) {
 		args args
 		want string
 	}{
-	// TODO: Add test cases.
+		{
+			name: "colorf test",
+			args: args{"Hello %s", a},
+			want: BoldString + "Hello dawg" + NoboldString,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Boldf(tt.args.text, tt.args.a...); got != tt.want {
+			got := Boldf(tt.args.text, tt.args.a...)
+			if got != tt.want {
 				t.Errorf("Boldf() = %v, want %v", got, tt.want)
 			}
+			fmt.Println(got)
 		})
 	}
 }

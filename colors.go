@@ -19,7 +19,7 @@ func Green(text string) string {
 
 func Greenf(text string, a ...interface{}) string {
 	text = fmt.Sprintf(text, a...)
-	return Red(text)
+	return Green(text)
 }
 
 func Red(text string) string {
