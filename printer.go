@@ -17,7 +17,7 @@ const bar = "┃ "
 const cornerTop = "┏"
 const cornerBottom = "┗"
 
-const leftPad = 3
+const leftPad = 2
 
 var InfoIcon = "🐧"
 var SuccessIcon = "✔"
