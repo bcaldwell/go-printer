@@ -19,24 +19,29 @@ const cornerBottom = "┗"
 
 const leftPad = 3
 
+var InfoIcon = "🐧"
+var SuccessIcon = "✔"
+var ErrorIcon = "✗"
+var WarningIcon = "⚠"
+
 func Success(text string, a ...interface{}) {
-	fmt.Printf(Green("✔ ")+text+"\n", a...)
+	fmt.Printf(Green(SuccessIcon+" ")+text+"\n", a...)
 }
 
 func Fail(text string, a ...interface{}) {
-	fmt.Printf(Red("✗ ")+text+"\n", a...)
+	Error(text, a...)
 }
 
 func Error(text string, a ...interface{}) {
-	fmt.Printf(Red("✗ ")+text+"\n", a...)
+	fmt.Printf(Red(ErrorIcon+" ")+text+"\n", a...)
 }
 
 func Info(text string, a ...interface{}) {
-	fmt.Printf(Blue("🐧  ")+text+"\n", a...)
+	fmt.Printf(Blue(InfoIcon+"  ")+text+"\n", a...)
 }
 
 func Warning(text string, a ...interface{}) {
-	fmt.Printf(Yellow("⚠ ")+text+"\n", a...)
+	fmt.Printf(Yellow(WarningIcon+" ")+text+"\n", a...)
 }
 
 func SuccessBar(text string, a ...interface{}) {
@@ -56,19 +61,19 @@ func WarningBar(text string, a ...interface{}) {
 }
 
 func SuccessBarIcon(text string, a ...interface{}) {
-	fmt.Printf(Greenf("%s✔ ", bar)+text+"\n", a...)
+	fmt.Printf(Greenf("%s%s ", bar, SuccessIcon)+text+"\n", a...)
 }
 
 func ErrorBarIcon(text string, a ...interface{}) {
-	fmt.Printf(Redf("%s✗ ", bar)+text+"\n", a...)
+	fmt.Printf(Redf("%s%s ", bar, ErrorIcon)+text+"\n", a...)
 }
 
 func InfoBarIcon(text string, a ...interface{}) {
-	fmt.Printf(Bluef("%s🐧 ", bar)+text+"\n", a...)
+	fmt.Printf(Bluef("%s%s ", bar, InfoIcon)+text+"\n", a...)
 }
 
 func WarningBarIcon(text string, a ...interface{}) {
-	fmt.Printf(Yellowf("%s⚠ ", bar)+text+"\n", a...)
+	fmt.Printf(Yellowf("%s%s ", bar, WarningIcon)+text+"\n", a...)
 }
 
 func SuccessLine() {
