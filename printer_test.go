@@ -902,6 +902,34 @@ func TestVerboseWarningBar(t *testing.T) {
 	}
 }
 
+func TestPrintColored(t *testing.T) {
+	var a []interface{}
+	a = append(a, "dawg")
+
+	type args struct {
+		text string
+		a    []interface{}
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			name: "testing!",
+			args: args{"{{green:sup}} {{bold:{{red:%s}}}}", a},
+		},
+		{
+			name: "all colors!",
+			args: args{"{{green:sup}} {{bold:{{red:bold red!}}}} {{cyan: cyan!!!}} {{blue:blue}}", nil},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			PrintColored(tt.args.text, tt.args.a...)
+		})
+	}
+}
+
 func Test_getSize(t *testing.T) {
 	type args struct {
 		fd int

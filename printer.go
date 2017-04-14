@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"regexp"
 	"strings"
 	"syscall"
 	"unsafe"
@@ -23,6 +24,18 @@ var InfoIcon = "🐧"
 var SuccessIcon = "✔"
 var ErrorIcon = "✗"
 var WarningIcon = "⚠"
+
+var redRegex = regexp.MustCompile(`{{red:(.*?)}}`)
+var blueRegex = regexp.MustCompile(`{{blue:(.*?)}}`)
+var greenRegex = regexp.MustCompile(`{{green:(.*?)}}`)
+var cyanRegex = regexp.MustCompile(`{{cyan:(.*?)}}`)
+var boldRegex = regexp.MustCompile(`{{bold:(.*?)}}`)
+
+func init() {
+	if os.Getenv("VERBOSE") == "true" {
+		Verbose = true
+	}
+}
 
 func Success(text string, a ...interface{}) {
 	fmt.Printf(Green(SuccessIcon+" ")+text+"\n", a...)
@@ -244,6 +257,20 @@ func VerboseWarningBar(text string, a ...interface{}) {
 	if Verbose {
 		WarningBar(text, a...)
 	}
+}
+
+func PrintColoredln(text string, a ...interface{}) {
+	PrintColored(text+"\n", a...)
+}
+
+func PrintColored(text string, a ...interface{}) {
+	text = blueRegex.ReplaceAllString(text, Blue("$1"))
+	text = redRegex.ReplaceAllString(text, Red("$1"))
+	text = greenRegex.ReplaceAllString(text, Green("$1"))
+	text = cyanRegex.ReplaceAllString(text, Cyan("$1"))
+	text = boldRegex.ReplaceAllString(text, Bold("$1"))
+
+	fmt.Printf(text, a...)
 }
 
 // GetSize returns the dimensions of the given terminal.
