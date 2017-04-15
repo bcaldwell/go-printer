@@ -264,13 +264,17 @@ func PrintColoredln(text string, a ...interface{}) {
 }
 
 func PrintColored(text string, a ...interface{}) {
+	text = ColoredString(text)
+	fmt.Printf(text, a...)
+}
+
+func ColoredString(text string) {
 	text = blueRegex.ReplaceAllString(text, Blue("$1"))
 	text = redRegex.ReplaceAllString(text, Red("$1"))
 	text = greenRegex.ReplaceAllString(text, Green("$1"))
 	text = cyanRegex.ReplaceAllString(text, Cyan("$1"))
 	text = boldRegex.ReplaceAllString(text, Bold("$1"))
-
-	fmt.Printf(text, a...)
+	return text
 }
 
 // GetSize returns the dimensions of the given terminal.
