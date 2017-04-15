@@ -268,7 +268,7 @@ func PrintColored(text string, a ...interface{}) {
 	fmt.Printf(text, a...)
 }
 
-func ColoredString(text string) {
+func ColoredString(text string) string {
 	text = blueRegex.ReplaceAllString(text, Blue("$1"))
 	text = redRegex.ReplaceAllString(text, Red("$1"))
 	text = greenRegex.ReplaceAllString(text, Green("$1"))
