@@ -17,7 +17,6 @@ const YellowColor = "\x1b[33m"
 const CyanColor = "\x1b[36m"
 
 func Green(text string) string {
-	fmt.Println("called")
 	return fmt.Sprintf("%s%s%s", GreenColor, text, NoColor)
 }
 
