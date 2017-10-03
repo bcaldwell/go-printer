@@ -13,7 +13,7 @@ func TestNewTaskSpinner(t *testing.T) {
 	go func() {
 		time.Sleep(1 * time.Second)
 		s.Ch <- "suppppppp"
-		time.Sleep(1 * time.Second)
+		time.Sleep(10 * time.Second)
 		close(s.Ch)
 	}()
 
