@@ -154,6 +154,13 @@ func StartSpinners() (wg *sync.WaitGroup) {
 	return wg
 }
 
+func WaitAllSpinners() {
+	wg := StartSpinners()
+	wg.Wait()
+	fmt.Printf("\x1b[%dF", len(taskSpinners))
+	drawSpinners()
+}
+
 func drawSpinners() {
 	for _, spinner := range taskSpinners {
 		spinner.draw()

@@ -13,7 +13,6 @@ func TestNewTaskSpinner(t *testing.T) {
 	s.FinalMSG = "well, I'm not done but I tried. I failed... :("
 	s.Prefix = Blue(bar)
 	w.Prefix = Blue(bar)
-	wg := StartSpinners()
 	go func() {
 		time.Sleep(1 * time.Second)
 		s.Ch <- "suppppppp"
@@ -24,5 +23,5 @@ func TestNewTaskSpinner(t *testing.T) {
 		w.Success()
 		time.Sleep(1 * time.Second)
 	}()
-	wg.Wait()
+	WaitAllSpinners()
 }
