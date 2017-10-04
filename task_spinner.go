@@ -98,13 +98,18 @@ func (t *TaskSpinner) draw() {
 	if t.MSG != "" {
 		msg += " [" + t.MSG + "]"
 	}
+
+	if t.State != running && t.FinalMSG != "" {
+		msg = t.FinalMSG
+	}
+
 	switch t.State {
 	case running:
 		fmt.Printf("\r%s\x1b[%dm%s\x1b[0m %s\x1b[K\n", t.Prefix, spinColor, spin, msg)
 	case success:
-		fmt.Printf("%s\x1b[K\x1b[32m✓\x1b[0m %s\x1b[1B\r", t.Prefix, t.Name)
+		fmt.Printf("%s\x1b[K\x1b[32m✓\x1b[0m %s\x1b[1B\r", t.Prefix, msg)
 	case failure:
-		fmt.Printf("%s\x1b[K\x1b[31m✗\x1b[0m %s\x1b[1B\r", t.Prefix, t.Name)
+		fmt.Printf("%s\x1b[K\x1b[31m✗\x1b[0m %s\x1b[1B\r", t.Prefix, msg)
 	}
 
 	// todo think of better way todo this, because this is shit

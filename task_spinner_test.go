@@ -10,6 +10,7 @@ func TestNewTaskSpinner(t *testing.T) {
 	fmt.Println()
 	s := AddSpinner("hello")
 	w := AddSpinner("bye")
+	s.FinalMSG = "well, I'm not done but I tried. I failed... :("
 	s.Prefix = Blue(bar)
 	w.Prefix = Blue(bar)
 	wg := StartSpinners()
