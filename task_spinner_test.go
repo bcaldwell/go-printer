@@ -7,20 +7,21 @@ import (
 )
 
 func TestNewTaskSpinner(t *testing.T) {
-	s := NewTaskSpinner("hello")
-	ticker := time.NewTicker(100 * time.Millisecond)
-	s.Ch <- "I work"
+	fmt.Println()
+	s := AddSpinner("hello")
+	w := AddSpinner("bye")
+	s.Prefix = Blue(bar)
+	w.Prefix = Blue(bar)
+	wg := StartSpinners()
 	go func() {
 		time.Sleep(1 * time.Second)
 		s.Ch <- "suppppppp"
-		time.Sleep(10 * time.Second)
-		close(s.Ch)
+		w.Ch <- "sleep"
+		time.Sleep(1 * time.Second)
+		s.Fail()
+		time.Sleep(1 * time.Second)
+		w.Success()
+		time.Sleep(1 * time.Second)
 	}()
-
-	s.draw()
-	for _ = range ticker.C {
-		fmt.Print("\x1b[1F")
-		s.draw()
-	}
-
+	wg.Wait()
 }

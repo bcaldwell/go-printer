@@ -1,9 +1,14 @@
 package printer
 
-import "fmt"
-import "sync"
+import (
+	"fmt"
+	"sync"
+	"time"
+)
 
 var spinStates = []string{"⠋", "⠙", "⠚", "⠞", "⠖", "⠦", "⠴", "⠲", "⠳", "⠓"}
+var taskSpinners []*TaskSpinner
+var spinnersMutex = new(sync.Mutex)
 
 const (
 	running = iota
@@ -25,6 +30,7 @@ func NewTaskSpinner(name string) *TaskSpinner {
 }
 
 type TaskSpinner struct {
+	Prefix     string
 	State      int
 	FinalMSG   string
 	MSG        string
@@ -33,6 +39,7 @@ type TaskSpinner struct {
 	tick       int
 	m          sync.Mutex
 	SpinStates []string
+	wg         *sync.WaitGroup
 }
 
 func (t *TaskSpinner) init() {
@@ -43,7 +50,9 @@ func (t *TaskSpinner) init() {
 
 			//false when channel is closed
 			if !more {
-				t.State = success
+				if t.State == running {
+					t.State = success
+				}
 				t.m.Unlock()
 				return
 			}
@@ -53,13 +62,29 @@ func (t *TaskSpinner) init() {
 	}(t)
 }
 
+// Fail set the task to the failure state. This will also stop the spinner and close its channel.
+func (t *TaskSpinner) Fail() {
+	t.m.Lock()
+	defer t.m.Unlock()
+
+	close(t.Ch)
+	t.State = failure
+}
+
+// Success set the task to the succesful state. This will also stop the spinner and close its channel.
+func (t *TaskSpinner) Success() {
+	t.m.Lock()
+	defer t.m.Unlock()
+
+	close(t.Ch)
+	t.State = success
+}
+
 func (t *TaskSpinner) draw() {
 	t.m.Lock()
 	defer t.m.Unlock()
 
 	spinStatesLen := len(t.SpinStates)
-
-	prefix := ""
 
 	spin := t.SpinStates[t.tick%spinStatesLen]
 	t.tick++
@@ -68,12 +93,64 @@ func (t *TaskSpinner) draw() {
 	if (t.tick % spinStatesLen) < spinStatesLen/2 {
 		spinColor = 32
 	}
+
+	msg := t.Name
+	if t.MSG != "" {
+		msg += " [" + t.MSG + "]"
+	}
 	switch t.State {
 	case running:
-		fmt.Printf("\r%s\x1b[%dm%s\x1b[0m %s[%s]\x1b[K\n", prefix, spinColor, spin, t.Name, t.MSG)
+		fmt.Printf("\r%s\x1b[%dm%s\x1b[0m %s\x1b[K\n", t.Prefix, spinColor, spin, msg)
 	case success:
-		fmt.Printf("%s\x1b[K\x1b[32m✓\x1b[0m %s\x1b[1B\r", prefix, t.Name)
+		fmt.Printf("%s\x1b[K\x1b[32m✓\x1b[0m %s\x1b[1B\r", t.Prefix, t.Name)
 	case failure:
-		fmt.Printf("%s\x1b[K\x1b[31m✗\x1b[0m %s\x1b[1B\r", prefix, t.Name)
+		fmt.Printf("%s\x1b[K\x1b[31m✗\x1b[0m %s\x1b[1B\r", t.Prefix, t.Name)
+	}
+
+	// todo think of better way todo this, because this is shit
+	if t.State != running && t.wg != nil {
+		t.wg.Done()
+		t.wg = nil
+	}
+}
+
+func AddSpinner(name string) *TaskSpinner {
+	spinnersMutex.Lock()
+	defer spinnersMutex.Unlock()
+
+	t := NewTaskSpinner(name)
+	taskSpinners = append(taskSpinners, t)
+	return t
+}
+
+func StartSpinners() (wg *sync.WaitGroup) {
+	// avoid array being modified while spinners are running
+	spinnersMutex.Lock()
+
+	taskCount := len(taskSpinners)
+	wg = &sync.WaitGroup{}
+	wg.Add(taskCount)
+
+	for i := range taskSpinners {
+		taskSpinners[i].wg = wg
+	}
+
+	ticker := time.NewTicker(100 * time.Millisecond)
+	go func() {
+		defer ticker.Stop()
+		defer spinnersMutex.Unlock()
+		drawSpinners()
+		for range ticker.C {
+			fmt.Printf("\x1b[%dF", taskCount)
+			drawSpinners()
+		}
+	}()
+
+	return wg
+}
+
+func drawSpinners() {
+	for _, spinner := range taskSpinners {
+		spinner.draw()
 	}
 }
