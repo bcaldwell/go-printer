@@ -15,8 +15,8 @@ var Verbose = false
 
 const line = "━"
 const bar = "┃ "
-const cornerTop = "┏"
-const cornerBottom = "┗"
+const cornerTop = "┌"
+const cornerBottom = "└"
 
 const leftPad = 2
 
